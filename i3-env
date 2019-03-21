@@ -7,6 +7,12 @@ real_env_dir=$(echo $environments_dir | sed "s,~,$HOME,")
 env_dir="$real_env_dir/$workspace_name"
 command="${@:1}"
 
+if [ -z "$workspace_name" ]
+then
+	echo "Workspace name is empty, using \$HOME"
+	env_dir="$HOME"
+fi
+
 echo "Workspace name: $workspace_name"
 echo "Environment directory: $env_dir"
 echo "Command to run: $command"
