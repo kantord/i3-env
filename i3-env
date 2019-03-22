@@ -13,6 +13,11 @@ then
 	env_dir="$HOME"
 fi
 
+if [ ! -d "$env_dir" ]; then
+	echo "Environment directory not found, using \$HOME"
+	env_dir="$HOME"
+fi
+
 echo "Workspace name: $workspace_name"
 echo "Environment directory: $env_dir"
 echo "Command to run: $command"
