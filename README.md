@@ -22,6 +22,8 @@ When your workspace doesn't have a corresponding environment, then $HOME will be
 
 ## Setup
 
+Available in AUR: https://aur.archlinux.org/packages/i3-env/
+
 Requires emuto to be installed: `npm install -g emuto emuto-cli`
 
 Assuming that you have checked out the repo and the directory containing `i3-env` is in your PATH, then you can modify your bindings in your i3 configuration.
