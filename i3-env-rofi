@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+environments_dir="~/.i3envs"
+source ~/.i3envrc
+real_env_dir=$(echo $environments_dir | sed "s,~,$HOME,")
+
+project=`ls $real_env_dir | rofi -dmenu | sed 's/ .*//g'`
+workspace_number=`i3-msg -t "get_workspaces" | emuto 'filter ($ => $.focused) | $[0].num'`
+
+if [ -z "$project" ]
+then
+	echo "Not changing workspace name because no project was selected"
+else
+	echo "Selected $project"
+	workspace_name="$workspace_number: $project"
+	echo $workspace_name
+	i3-msg "rename workspace to \"$workspace_name\""
+fi
+cd -
