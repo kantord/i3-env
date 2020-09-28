@@ -16,6 +16,6 @@ else
 	echo $workspace_name
 	i3-msg "rename workspace to \"$workspace_name\""
 
-	source ~/.i3-env-autorun
+	i3-env bash ~/.i3-env-autorun
 fi
 cd -
