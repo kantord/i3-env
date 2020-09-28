@@ -33,3 +33,12 @@ For example, this is how I launch my terminal to make it aware of the i3 context
 ```
 bindsym $mod+Return exec i3-env termite
 ```
+
+
+## Automatically run commands in newly opened envs
+
+In order to run commands in a newly opened i3-env, create a `~/.i3-env-autorun`. An example:
+
+```
+termite -e nvim
+```
