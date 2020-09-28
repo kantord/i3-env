@@ -25,5 +25,7 @@ else
 		i3-env bash ~/.i3-env-autorun
 	fi
 
+	i3-layout-manager $project
+
 fi
 cd -
