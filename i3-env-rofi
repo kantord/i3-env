@@ -13,9 +13,17 @@ then
 else
 	echo "Selected $project"
 	workspace_name="$workspace_number: $project"
+	env_dir="$real_env_dir/$project"
 	echo $workspace_name
 	i3-msg "rename workspace to \"$workspace_name\""
 
-	i3-env bash ~/.i3-env-autorun
+	AUTORUN_FILE="$env_dir/.i3-env-autorun"
+	echo "🍅$AUTORUN_FILE"
+	if test -f "$AUTORUN_FILE"; then
+		i3-env bash $AUTORUN_FILE
+	else
+		i3-env bash ~/.i3-env-autorun
+	fi
+
 fi
 cd -
