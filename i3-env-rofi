@@ -21,11 +21,12 @@ else
 	echo "🍅$AUTORUN_FILE"
 	if test -f "$AUTORUN_FILE"; then
 		i3-env bash $AUTORUN_FILE
+		i3-layout-manager $project
 	else
 		i3-env bash ~/.i3-env-autorun
+		i3-layout-manager default
 	fi
 
-	i3-layout-manager $project
 
 fi
 cd -
