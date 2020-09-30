@@ -20,11 +20,11 @@ else
 	AUTORUN_FILE="$env_dir/.i3-env-autorun"
 	echo "🍅$AUTORUN_FILE"
 	if test -f "$AUTORUN_FILE"; then
-		i3-env bash $AUTORUN_FILE
-		i3-layout-manager $project
+		i3-env bash $AUTORUN_FILE &
+		i3-layout-manager $project &
 	else
-		i3-env bash ~/.i3-env-autorun
-		i3-layout-manager default
+		i3-env bash ~/.i3-env-autorun &
+		i3-layout-manager default &
 	fi
 
 
