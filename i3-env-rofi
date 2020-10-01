@@ -29,7 +29,7 @@ else
 	fi
 
 	# Hack to fix visual glitches
-	sleep 0.5
+	sleep 0.75
 	i3-msg resize grow width
 	i3-msg resize shrink width
 
