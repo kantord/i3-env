@@ -4,7 +4,7 @@ environments_dir="~/.i3envs"
 source ~/.i3envrc
 real_env_dir=$(echo $environments_dir | sed "s,~,$HOME,")
 
-project=`ls $real_env_dir | rofi -dmenu | sed 's/ .*//g'`
+project=`ls $real_env_dir | rofi -dmenu -i | sed 's/ .*//g'`
 workspace_number=`i3-msg -t "get_workspaces" | emuto 'filter ($ => $.focused) | $[0].num'`
 
 if [ -z "$project" ]
@@ -29,7 +29,7 @@ else
 	fi
 
 	# Hack to fix visual glitches
-	sleep 0.75
+	sleep 1
 	i3-msg resize grow width
 	i3-msg resize shrink width
 
