@@ -4,18 +4,53 @@ environments_dir="~/.i3envs"
 source ~/.i3envrc
 real_env_dir=$(echo $environments_dir | sed "s,~,$HOME,")
 
-project=`ls $real_env_dir | rofi -dmenu -i | sed 's/ .*//g'`
+function list_repo_branches() {
+	cd $real_env_dir
+	for directory_name in ./*/; do
+		repo_name=$(echo $directory_name | sed 's/^\.\///' | sed 's/\/$//')
+		cd $directory_name
+		git branch -a \
+			| sed 's/*//' | sed 's/[[:blank:]]//g' `# Remove formatting crap` \
+			| sed 's/remotes\/[^\/]\+\///' `# Simplify the name of remote branches` \
+			| grep -v '^HEAD' `# Remove whatever this is` \
+			| sort -u `# Just in case the same branch shows up from different remotes etc.` \
+			| awk '{print "'$repo_name' [" $0 "]"}'
+		cd - > /dev/null  # Go back to original folder
+	done
+	cd - > /dev/null  # Go back to original folder
+}
+
+choice=`list_repo_branches | rofi -dmenu -i -async-pre-read 100`
 workspace_number=`i3-msg -t "get_workspaces" | emuto 'filter ($ => $.focused) | $[0].num'`
 
-if [ -z "$project" ]
+if [ -z "$choice" ]
 then
-	echo "Not changing workspace name because no project was selected"
+	echo "Not changing workspace name because no choice was selected"
 else
-	echo "Selected $project"
-	workspace_name="$workspace_number: $project"
-	env_dir="$real_env_dir/$project"
+	echo "Selected $choice"
+	workspace_name="$workspace_number: $choice"
+	branch_name=`echo $choice | cut -f2 -d' ' | tr -d '[]'`
+	repo_name=`echo $choice | cut -f1 -d' '`
+	echo "repo_name $repo_name"
+	echo "branch_name $branch_name"
+	env_dir="$real_env_dir/$repo_name"
+	echo "env_dir $env_dir"
+	main_branch_pattern="^master$"
+
+	# If the branch is not master, creating a git worktree
+	if [[ ! $branch_name =~ $main_branch_pattern ]];
+	then
+		worktree_dir=$env_dir/.worktrees/$branch_name
+		echo "Creating git worktree directory $worktree_dir"
+		mkdir -p $worktree_dir
+		cd $env_dir
+		git worktree add $worktree_dir $branch_name
+		cd -
+		env_dir=$worktree_dir
+	fi
+
 	echo $workspace_name
-	found_running_env=`i3-msg -t "get_workspaces" | emuto '~ .name' -o=raw | grep "\:\ $project$" | cut -f1 -d':'`
+	found_running_env=`i3-msg -t "get_workspaces" | emuto '~ .name' -o=raw | grep "\:\ $choice$" | cut -f1 -d':'`
 	echo "found_running_env $found_running_env"
 	if [ -z "$found_running_env" ]
 	then
@@ -24,9 +59,9 @@ else
 
 		AUTORUN_FILE="$env_dir/.i3-env-autorun"
 		if test -f "$AUTORUN_FILE"; then
-			i3-layout-manager $project &
+			i3-layout-manager $choice &
 			i3-env bash $AUTORUN_FILE &
-			echo "default|$project" > $env_dir/.i3-env-current-mode &
+			echo "default|$choice" > $env_dir/.i3-env-current-mode &
 		else
 			i3-layout-manager default &
 			i3-env bash ~/.i3-env-autorun &

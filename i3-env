@@ -3,8 +3,19 @@
 environments_dir="~/.i3envs"
 source ~/.i3envrc
 workspace_name=`i3-msg -t get_workspaces | emuto 'filter ($ => $.focused) | $[0].name | split ": " | [$[1]]' -o raw`
+branch_name=`echo $workspace_name | cut -f2 -d' ' | tr -d '[]'`
+repo_name=`echo $workspace_name | cut -f1 -d' '`
+echo "Branch name $branch_name"
 real_env_dir=$(echo $environments_dir | sed "s,~,$HOME,")
-env_dir="$real_env_dir/$workspace_name"
+env_dir="$real_env_dir/$repo_name"
+main_branch_pattern="^master$"
+
+if [[ ! $branch_name =~ $main_branch_pattern ]];
+then
+	env_dir=$env_dir/.worktrees/$branch_name
+fi
+
+
 command="${@:1}"
 
 if [ -z "$workspace_name" ]
