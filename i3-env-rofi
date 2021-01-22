@@ -35,7 +35,7 @@ else
 	echo "branch_name $branch_name"
 	env_dir="$real_env_dir/$repo_name"
 	echo "env_dir $env_dir"
-	main_branch_pattern="^master$"
+	main_branch_pattern="^(master|main)$"
 
 	# If the branch is not master, creating a git worktree
 	if [[ ! $branch_name =~ $main_branch_pattern ]];

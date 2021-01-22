@@ -19,6 +19,11 @@ environments_dir="~/repos"
 
 When your workspace doesn't have a corresponding environment, then $HOME will be used as working directory (that's the default behavior)
 
+## Edit multiple git branches at the same time
+
+i3-env supports git worktrees. It means that you can have multiple workspaces of the same repo, each
+assigned to a different git branch. Simply make sure that your workspaces are git repositories.
+
 
 ## Setup
 

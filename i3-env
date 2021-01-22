@@ -8,7 +8,7 @@ repo_name=`echo $workspace_name | cut -f1 -d' '`
 echo "Branch name $branch_name"
 real_env_dir=$(echo $environments_dir | sed "s,~,$HOME,")
 env_dir="$real_env_dir/$repo_name"
-main_branch_pattern="^master$"
+main_branch_pattern="^(master|main)$"
 
 if [[ ! $branch_name =~ $main_branch_pattern ]];
 then
