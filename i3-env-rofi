@@ -50,7 +50,7 @@ else
 	# If the branch is not master, creating a git worktree
 	if [[ ! $branch_name =~ $main_branch_pattern ]];
 	then
-		worktree_dir=$env_dir/.worktrees/$branch_name
+		worktree_dir=$environments_dir/.worktrees/$repo_name/$branch_name
 		echo "Creating git worktree directory $worktree_dir"
 		mkdir -p $worktree_dir
 		cd $env_dir

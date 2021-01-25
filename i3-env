@@ -12,7 +12,7 @@ main_branch_pattern="^(master|main)$"
 
 if [[ ! $branch_name =~ $main_branch_pattern ]];
 then
-	env_dir=$env_dir/.worktrees/$branch_name
+	env_dir=$environments_dir/.worktrees/$repo_name/$branch_name
 fi
 
 
