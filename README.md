@@ -1,3 +1,12 @@
+# NOT MAINTAINED
+
+`i3-env` was an i3-specific collection of shell scripts that are no longer maintained. Check out [enwiro](https://github.com/kantord/enwiro)
+wich is the successor to `i3-env` implemented in Rust.
+
+
+
+
+
 # i3-env
 Makes applications aware of your i3 workspace.
 
